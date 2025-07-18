@@ -1,11 +1,10 @@
 package com.neto.CarDealership.car.service;
 
-import com.neto.CarDealership.car.CarModel;
+import com.neto.CarDealership.car.model.CarModel;
 import com.neto.CarDealership.car.repository.CarRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class CarService {
@@ -27,7 +26,7 @@ public class CarService {
     }
 
     //GET BY ID
-    public CarModel findById(Long id, CarModel car){
+    public CarModel findById(Long id){
         return carRepository.findById(id).orElseThrow(() -> new RuntimeException("Id não encontrado"));
     }
 

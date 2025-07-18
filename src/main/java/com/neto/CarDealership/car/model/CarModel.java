@@ -1,4 +1,4 @@
-package com.neto.CarDealership.car;
+package com.neto.CarDealership.car.model;
 
 import com.neto.CarDealership.client.model.ClientModel;
 import jakarta.persistence.*;

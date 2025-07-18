@@ -1,6 +1,6 @@
 package com.neto.CarDealership.client.model;
 
-import com.neto.CarDealership.car.CarModel;
+import com.neto.CarDealership.car.model.CarModel;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
