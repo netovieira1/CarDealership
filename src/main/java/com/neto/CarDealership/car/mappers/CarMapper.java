@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class CarMapper {
 
-    CarDTO carDTO(CarModel carModel) {
+    CarDTO carModel(CarModel carModel) {
         CarDTO carDTO = new CarDTO();
 
         carDTO.setId(carModel.getId());
@@ -20,7 +20,7 @@ public class CarMapper {
         return carDTO;
     }
 
-    CarModel carModel(CarDTO carDTO){
+    CarModel carDTO(CarDTO carDTO){
         CarModel carModel = new CarModel();
 
         carModel.setId(carDTO.getId());
