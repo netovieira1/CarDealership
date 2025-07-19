@@ -7,18 +7,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class ClientMapper {
 
-    public ClientDTO clientDTO(ClientModel clientModel){
-        ClientDTO clientDTO = new ClientDTO();
-
-        clientDTO.setId(clientModel.getId());
-        clientDTO.setName(clientModel.getName());
-        clientDTO.setEmail(clientModel.getEmail());
-        clientDTO.setCpf(clientModel.getCpf());
-        clientDTO.setPhone(clientModel.getPhone());
-        return clientDTO;
-    }
-
-    public ClientModel clientModel(ClientDTO clientDTO){
+    public ClientModel map(ClientDTO clientDTO){
         ClientModel clientModel = new ClientModel();
 
         clientModel.setId(clientDTO.getId());
@@ -27,5 +16,16 @@ public class ClientMapper {
         clientModel.setCpf(clientDTO.getCpf());
         clientModel.setPhone(clientDTO.getPhone());
         return clientModel;
+    }
+
+    public ClientDTO map(ClientModel clientModel){
+        ClientDTO clientDTO = new ClientDTO();
+
+        clientDTO.setId(clientModel.getId());
+        clientDTO.setName(clientModel.getName());
+        clientDTO.setEmail(clientModel.getEmail());
+        clientDTO.setCpf(clientModel.getCpf());
+        clientDTO.setPhone(clientModel.getPhone());
+        return clientDTO;
     }
 }
