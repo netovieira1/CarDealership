@@ -22,7 +22,7 @@ public class CarModel {
 
     private String model;
 
-    private Integer year;
+    private Integer carYear;
 
     private String color;
 

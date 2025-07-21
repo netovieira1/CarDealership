@@ -39,7 +39,7 @@ public class CarService {
         existingCar.setModel(updatedCar.getModel());
         existingCar.setColor(updatedCar.getColor());
         existingCar.setOwner(updatedCar.getOwner());
-        existingCar.setYear(updatedCar.getYear());
+        existingCar.setCarYear(updatedCar.getCarYear());
         return carRepository.save(existingCar);
     }
     //DELETE

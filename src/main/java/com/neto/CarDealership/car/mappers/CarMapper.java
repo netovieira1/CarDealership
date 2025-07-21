@@ -15,7 +15,7 @@ public class CarMapper {
         carDTO.setName(carModel.getName());
         carDTO.setBrand(carModel.getBrand());
         carDTO.setModel(carModel.getModel());
-        carDTO.setYear(carModel.getYear());
+        carDTO.setYear(carModel.getCarYear());
         carDTO.setColor(carModel.getColor());
         return carDTO;
     }
@@ -27,7 +27,7 @@ public class CarMapper {
         carModel.setName(carDTO.getName());
         carModel.setBrand(carDTO.getBrand());
         carModel.setModel(carDTO.getModel());
-        carModel.setYear(carDTO.getYear());
+        carModel.setCarYear(carDTO.getYear());
         carModel.setColor(carDTO.getColor());
         return carModel;
     }
