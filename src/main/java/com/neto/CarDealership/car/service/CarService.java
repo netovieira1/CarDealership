@@ -1,49 +1,64 @@
 package com.neto.CarDealership.car.service;
 
+import com.neto.CarDealership.car.dtos.CarDTO;
+import com.neto.CarDealership.car.mappers.CarMapper;
 import com.neto.CarDealership.car.model.CarModel;
 import com.neto.CarDealership.car.repository.CarRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class CarService {
 
     private final CarRepository carRepository;
+    private final CarMapper carMapper;
 
-    public CarService(CarRepository carRepository) {
+    public CarService(CarRepository carRepository, CarMapper carMapper) {
         this.carRepository = carRepository;
+        this.carMapper = carMapper;
     }
 
     //CREATE
-    public CarModel create(CarModel car){
-        return carRepository.save(car);
+    public CarDTO create(CarDTO carDTO){
+        //Mapear o model para um DTO
+        CarModel car = carMapper.map(carDTO);
+        car = carRepository.save(car);
+        return carMapper.map(car);
     }
 
-    //GET
-    public List<CarModel> findAll(){
-        return carRepository.findAll();
+    //GET ALL
+    public List<CarDTO> findAll(){
+        List<CarModel> cars = carRepository.findAll();
+        return cars.stream()
+                .map(carMapper::map)
+                .collect(Collectors.toList());
     }
 
     //GET BY ID
-    public CarModel findById(Long id){
-        return carRepository.findById(id).orElseThrow(() -> new RuntimeException("Id não encontrado"));
+    public CarDTO findById(Long id){
+        Optional<CarModel> car = carRepository.findById(id);
+        return car.map(carMapper::map).orElseThrow(() -> new RuntimeException("Carro não encontrado."));
     }
 
     //UPDATE
-    public CarModel updateById(Long id, CarModel updatedCar){
-        CarModel existingCar = carRepository.findById(id).orElseThrow(() -> new RuntimeException("ID não encontrado."));
-
-        existingCar.setName(updatedCar.getName());
-        existingCar.setBrand(updatedCar.getBrand());
-        existingCar.setModel(updatedCar.getModel());
-        existingCar.setColor(updatedCar.getColor());
-        existingCar.setOwner(updatedCar.getOwner());
-        existingCar.setCarYear(updatedCar.getCarYear());
-        return carRepository.save(existingCar);
+    public CarDTO updateById(Long id, CarDTO carDTO){
+        Optional<CarModel> existedCar = carRepository.findById(id);
+        if (existedCar.isPresent()){
+            CarModel updatedCar = carMapper.map(carDTO);
+            updatedCar.setId(id);
+            CarModel savedCar = carRepository.save(updatedCar);
+            return carMapper.map(savedCar);
+        }
+        return null;
     }
     //DELETE
     public void deleteById(Long id){
+        if (!carRepository.existsById(id)){
+            throw new RuntimeException("Carro não encontrado");
+        }
         carRepository.deleteById(id);
     }
 }

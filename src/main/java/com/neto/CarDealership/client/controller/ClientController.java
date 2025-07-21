@@ -31,9 +31,8 @@ public class ClientController {
     }
 
     @GetMapping("/list/{id}")
-    public ResponseEntity<?> getById(Long id){
+    public ResponseEntity<?> getById(@PathVariable Long id){
         ClientDTO client = clientService.findById(id);
-
         if(client != null){
             return ResponseEntity.ok(client);
         }else {
@@ -42,7 +41,7 @@ public class ClientController {
     }
 
     @PutMapping("/update")
-    public ResponseEntity<?> updateById(Long id, ClientDTO clientUpdated){
+    public ResponseEntity<?> updateById(@PathVariable Long id, @RequestBody ClientDTO clientUpdated){
         ClientDTO client = clientService.updateById(id, clientUpdated);
         if (client != null){
             ResponseEntity.ok(client);
@@ -53,7 +52,7 @@ public class ClientController {
     }
 
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity<String>  deleteById(Long id){
+    public ResponseEntity<String>  deleteById(@PathVariable Long id){
         if(clientService.findById(id) != null){
             clientService.deleteById(id);
             return ResponseEntity.ok("Cliente deletado com sucesso.");
