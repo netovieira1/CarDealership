@@ -60,10 +60,12 @@ public class ClientService {
     }
 
     //DELETE
-    public void deleteById(Long id){
-        if (clientRepository.existsById(id)){
-            throw new RuntimeException("Cliente não encontrado");
+    public boolean deleteById(Long id){
+        Optional<ClientModel> client = clientRepository.findById(id);
+        if (client.isPresent()){
+            clientRepository.delete(client.get());
+            return true;
         }
-        clientRepository.deleteById(id);
+        return false;
     }
 }
