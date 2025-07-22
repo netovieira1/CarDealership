@@ -46,7 +46,7 @@ public class CarController {
     }
 
     //UPDATE
-    @PutMapping("/update")
+    @PutMapping("/update/{id}")
     public ResponseEntity<?> updateById(@PathVariable Long id, @RequestBody CarDTO updatedCar){
         CarDTO car = carService.updateById(id, updatedCar);
         if (car != null){

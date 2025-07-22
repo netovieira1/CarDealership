@@ -40,7 +40,7 @@ public class ClientController {
         }
     }
 
-    @PutMapping("/update")
+    @PutMapping("/update/{id}")
     public ResponseEntity<?> updateById(@PathVariable Long id, @RequestBody ClientDTO clientUpdated){
         ClientDTO client = clientService.updateById(id, clientUpdated);
         if (client != null){
@@ -52,12 +52,12 @@ public class ClientController {
     }
 
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity<String>  deleteById(@PathVariable Long id){
-        if(clientService.findById(id) != null){
-            clientService.deleteById(id);
-            return ResponseEntity.ok("Cliente deletado com sucesso.");
+    public ResponseEntity<Void>  deleteById(@PathVariable Long id){
+        boolean deleted = clientService.deleteById(id);
+        if(deleted){
+            return ResponseEntity.noContent().build();
         }else {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Cliente não encontrado");
+            return ResponseEntity.notFound().build();
         }
     }
 }
