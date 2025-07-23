@@ -4,6 +4,8 @@ import com.neto.CarDealership.car.dtos.CarDTO;
 import com.neto.CarDealership.car.mappers.CarMapper;
 import com.neto.CarDealership.car.model.CarModel;
 import com.neto.CarDealership.car.repository.CarRepository;
+import com.neto.CarDealership.client.model.ClientModel;
+import com.neto.CarDealership.client.repository.ClientRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -15,16 +17,20 @@ public class CarService {
 
     private final CarRepository carRepository;
     private final CarMapper carMapper;
+    private final ClientRepository clientRepository;
 
-    public CarService(CarRepository carRepository, CarMapper carMapper) {
+    public CarService(CarRepository carRepository, CarMapper carMapper, ClientRepository clientRepository) {
         this.carRepository = carRepository;
         this.carMapper = carMapper;
+        this.clientRepository = clientRepository;
     }
 
     //CREATE
     public CarDTO create(CarDTO carDTO){
+        ClientModel owner = clientRepository.findById(carDTO.getClientId())
+                .orElseThrow(() -> new RuntimeException("Cliente não encontrado"));
         //Mapear o model para um DTO
-        CarModel car = carMapper.map(carDTO);
+        CarModel car = carMapper.map(carDTO, owner);
         car = carRepository.save(car);
         return carMapper.map(car);
     }
@@ -46,8 +52,11 @@ public class CarService {
     //UPDATE
     public CarDTO updateById(Long id, CarDTO carDTO){
         Optional<CarModel> existedCar = carRepository.findById(id);
+
         if (existedCar.isPresent()){
-            CarModel updatedCar = carMapper.map(carDTO);
+            ClientModel owner = clientRepository.findById(carDTO.getClientId())
+                    .orElseThrow(() -> new RuntimeException("Cliente não encontrado"));
+            CarModel updatedCar = carMapper.map(carDTO, owner);
             updatedCar.setId(id);
             CarModel savedCar = carRepository.save(updatedCar);
             return carMapper.map(savedCar);
