@@ -1,5 +1,10 @@
 package com.neto.CarDealership.client.dtos;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+
+import java.util.List;
+
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class ClientDTO {
 
     private Long id;
@@ -7,6 +12,7 @@ public class ClientDTO {
     private String email;
     private String cpf;
     private String phone;
+    private List<Long> rentalCars;
 
     public Long getId() {
         return id;
@@ -46,5 +52,13 @@ public class ClientDTO {
 
     public void setPhone(String phone) {
         this.phone = phone;
+    }
+
+    public List<Long> getRentalCars() {
+        return rentalCars;
+    }
+
+    public void setRentalCars(List<Long> rentalCars) {
+        this.rentalCars = rentalCars;
     }
 }
