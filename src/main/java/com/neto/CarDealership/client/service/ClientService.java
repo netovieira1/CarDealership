@@ -1,9 +1,12 @@
 package com.neto.CarDealership.client.service;
 
 import com.neto.CarDealership.client.dtos.ClientDTO;
+import com.neto.CarDealership.client.dtos.ClientRequestDTO;
 import com.neto.CarDealership.client.mappers.ClientMapper;
 import com.neto.CarDealership.client.model.ClientModel;
 import com.neto.CarDealership.client.repository.ClientRepository;
+import com.neto.CarDealership.exceptions.ResourceNotFoundException;
+import jakarta.validation.Valid;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -23,14 +26,13 @@ public class ClientService {
     }
 
     //CREATE
-    public ClientDTO create(ClientDTO clientDTO){
+    public ClientDTO create(ClientRequestDTO clientRequestDTO){
          //Mapear o model para um DTO
-        ClientModel client = clientMapper.map(clientDTO);
+        ClientModel model = clientMapper.map(clientRequestDTO);
         //Salvar o model
-        client = clientRepository.save(client);
+        ClientModel saved = clientRepository.save(model);
         //Retornar mapeado
-        return clientMapper.map(client);
-
+        return clientMapper.map(saved);
     }
 
     //GET ALL
@@ -48,15 +50,17 @@ public class ClientService {
     }
 
     //UPDATE
-    public ClientDTO updateById(Long id, ClientDTO clientDTO){
-    Optional<ClientModel> existedClient = clientRepository.findById(id);
-    if (existedClient.isPresent()){
-        ClientModel updatedClient = clientMapper.map(clientDTO);
-        updatedClient.setId(id);
-        ClientModel savedClient = clientRepository.save(updatedClient);
-        return clientMapper.map(savedClient);
-    }
-    return null;
+    public ClientDTO updateById(Long id, ClientRequestDTO clientRequestDTO){
+    ClientModel clientModel = clientRepository.findById(id)
+            .orElseThrow(() -> new ResourceNotFoundException("Cliente com ID " + id + " não encontrado"));
+
+    clientModel.setName(clientRequestDTO.getName());
+    clientModel.setEmail(clientRequestDTO.getEmail());
+    clientModel.setCpf(clientRequestDTO.getCpf());
+    clientModel.setPhone(clientRequestDTO.getPhone());
+
+    ClientModel updated = clientRepository.save(clientModel);
+    return clientMapper.map(updated);
     }
 
     //DELETE

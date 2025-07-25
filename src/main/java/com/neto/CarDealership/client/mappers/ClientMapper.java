@@ -3,6 +3,7 @@ package com.neto.CarDealership.client.mappers;
 import com.neto.CarDealership.car.mappers.CarMapper;
 import com.neto.CarDealership.car.model.CarModel;
 import com.neto.CarDealership.client.dtos.ClientDTO;
+import com.neto.CarDealership.client.dtos.ClientRequestDTO;
 import com.neto.CarDealership.client.model.ClientModel;
 import org.springframework.stereotype.Component;
 
@@ -37,5 +38,16 @@ public class ClientMapper {
                 .collect(Collectors.toList());
         clientDTO.setRentalCars(rentalCars);
         return clientDTO;
+    }
+
+    public ClientModel map(ClientRequestDTO clientRequestDTO){
+        ClientModel clientModel = new ClientModel();
+
+        clientModel.setName(clientRequestDTO.getName());
+        clientModel.setEmail(clientRequestDTO.getEmail());
+        clientModel.setCpf(clientRequestDTO.getCpf());
+        clientModel.setPhone(clientRequestDTO.getPhone());
+
+        return clientModel;
     }
 }

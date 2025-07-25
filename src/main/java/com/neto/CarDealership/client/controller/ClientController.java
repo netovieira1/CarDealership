@@ -1,7 +1,9 @@
 package com.neto.CarDealership.client.controller;
 
 import com.neto.CarDealership.client.dtos.ClientDTO;
+import com.neto.CarDealership.client.dtos.ClientRequestDTO;
 import com.neto.CarDealership.client.service.ClientService;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -19,9 +21,9 @@ public class ClientController {
     }
 
     @PostMapping("/create")
-    public ResponseEntity<String> create(@RequestBody ClientDTO client){
+    public ResponseEntity<ClientDTO> create(@RequestBody @Valid ClientRequestDTO client){
         ClientDTO newClient = clientService.create(client);
-        return ResponseEntity.status(HttpStatus.CREATED).body("Cliente criado com sucesso");
+        return ResponseEntity.status(HttpStatus.CREATED).body(newClient);
     }
 
     @GetMapping("/list")
@@ -41,7 +43,7 @@ public class ClientController {
     }
 
     @PutMapping("/update/{id}")
-    public ResponseEntity<?> updateById(@PathVariable Long id, @RequestBody ClientDTO clientUpdated){
+    public ResponseEntity<?> updateById(@PathVariable Long id, @RequestBody ClientRequestDTO clientUpdated){
         ClientDTO client = clientService.updateById(id, clientUpdated);
         if (client != null){
             ResponseEntity.ok(client);
