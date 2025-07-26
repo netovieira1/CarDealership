@@ -1,6 +1,7 @@
 package com.neto.CarDealership.car.controller;
 
 import com.neto.CarDealership.car.dtos.CarDTO;
+import com.neto.CarDealership.car.dtos.CarRequestDTO;
 import com.neto.CarDealership.car.model.CarModel;
 import com.neto.CarDealership.car.service.CarService;
 import org.springframework.http.HttpHeaders;
@@ -22,9 +23,9 @@ public class CarController {
 
     //CREATE
     @PostMapping("/create")
-    public ResponseEntity<String> create(@RequestBody CarDTO carDTO){
-        CarDTO newCar = carService.create(carDTO);
-        return ResponseEntity.status(HttpStatus.CREATED).body("Carro cadastrado com sucesso");
+    public ResponseEntity<CarDTO> create(@RequestBody CarRequestDTO carRequestDTO){
+        CarDTO newCar = carService.create(carRequestDTO);
+        return ResponseEntity.status(HttpStatus.CREATED).body(newCar);
     }
 
     //GET ALL
@@ -47,7 +48,7 @@ public class CarController {
 
     //UPDATE
     @PutMapping("/update/{id}")
-    public ResponseEntity<?> updateById(@PathVariable Long id, @RequestBody CarDTO updatedCar){
+    public ResponseEntity<?> updateById(@PathVariable Long id, @RequestBody CarRequestDTO updatedCar){
         CarDTO car = carService.updateById(id, updatedCar);
         if (car != null){
             return ResponseEntity.ok(car);

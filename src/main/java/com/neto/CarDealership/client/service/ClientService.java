@@ -54,10 +54,10 @@ public class ClientService {
     ClientModel clientModel = clientRepository.findById(id)
             .orElseThrow(() -> new ResourceNotFoundException("Cliente com ID " + id + " não encontrado"));
 
-    clientModel.setName(clientRequestDTO.getName());
-    clientModel.setEmail(clientRequestDTO.getEmail());
-    clientModel.setCpf(clientRequestDTO.getCpf());
-    clientModel.setPhone(clientRequestDTO.getPhone());
+    if (clientRequestDTO.getName() != null) clientModel.setName(clientRequestDTO.getName());
+    if (clientRequestDTO.getEmail() != null) clientModel.setEmail(clientRequestDTO.getEmail());
+    if (clientRequestDTO.getCpf() !=  null) clientModel.setCpf(clientRequestDTO.getCpf());
+    if (clientRequestDTO.getPhone() != null) clientModel.setPhone(clientRequestDTO.getPhone());
 
     ClientModel updated = clientRepository.save(clientModel);
     return clientMapper.map(updated);

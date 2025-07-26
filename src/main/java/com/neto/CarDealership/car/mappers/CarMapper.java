@@ -1,6 +1,7 @@
 package com.neto.CarDealership.car.mappers;
 
 import com.neto.CarDealership.car.dtos.CarDTO;
+import com.neto.CarDealership.car.dtos.CarRequestDTO;
 import com.neto.CarDealership.car.model.CarModel;
 import com.neto.CarDealership.client.model.ClientModel;
 import org.springframework.stereotype.Component;
@@ -32,6 +33,18 @@ public class CarMapper {
         carModel.setModel(carDTO.getModel());
         carModel.setCarYear(carDTO.getCarYear());
         carModel.setColor(carDTO.getColor());
+        carModel.setOwner(owner);
+        return carModel;
+    }
+
+    public CarModel map(CarRequestDTO carRequestDTO, ClientModel owner){
+        CarModel carModel = new CarModel();
+
+        carModel.setName(carRequestDTO.getName());
+        carModel.setBrand(carRequestDTO.getBrand());
+        carModel.setModel(carRequestDTO.getModel());
+        carModel.setCarYear(carRequestDTO.getCarYear());
+        carModel.setColor(carRequestDTO.getColor());
         carModel.setOwner(owner);
         return carModel;
     }

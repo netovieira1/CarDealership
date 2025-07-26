@@ -1,5 +1,7 @@
 package com.neto.CarDealership.car.dtos;
 
+import jakarta.validation.constraints.NotNull;
+
 public class CarRequestDTO {
 
     private String name;
@@ -12,6 +14,7 @@ public class CarRequestDTO {
 
     private String color;
 
+    @NotNull(message = "O clientId não pode ser nulo")
     private Long clientId;
 
     public String getName() {

@@ -1,11 +1,13 @@
 package com.neto.CarDealership.car.service;
 
 import com.neto.CarDealership.car.dtos.CarDTO;
+import com.neto.CarDealership.car.dtos.CarRequestDTO;
 import com.neto.CarDealership.car.mappers.CarMapper;
 import com.neto.CarDealership.car.model.CarModel;
 import com.neto.CarDealership.car.repository.CarRepository;
 import com.neto.CarDealership.client.model.ClientModel;
 import com.neto.CarDealership.client.repository.ClientRepository;
+import com.neto.CarDealership.exceptions.ResourceNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -26,11 +28,11 @@ public class CarService {
     }
 
     //CREATE
-    public CarDTO create(CarDTO carDTO){
-        ClientModel owner = clientRepository.findById(carDTO.getClientId())
-                .orElseThrow(() -> new RuntimeException("Cliente não encontrado"));
+    public CarDTO create(CarRequestDTO carRequestDTO){
+        ClientModel owner = clientRepository.findById(carRequestDTO.getClientId())
+                .orElseThrow(() -> new ResourceNotFoundException("Cliente não encontrado"));
         //Mapear o model para um DTO
-        CarModel car = carMapper.map(carDTO, owner);
+        CarModel car = carMapper.map(carRequestDTO, owner);
         car = carRepository.save(car);
         return carMapper.map(car);
     }
@@ -50,23 +52,27 @@ public class CarService {
     }
 
     //UPDATE
-    public CarDTO updateById(Long id, CarDTO carDTO){
-        Optional<CarModel> existedCar = carRepository.findById(id);
+    public CarDTO updateById(Long id, CarRequestDTO carRequestDTO){
+        CarModel carModel = carRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Carro com o ID " + id + " não encontrado"));
 
-        if (existedCar.isPresent()){
-            ClientModel owner = clientRepository.findById(carDTO.getClientId())
-                    .orElseThrow(() -> new RuntimeException("Cliente não encontrado"));
-            CarModel updatedCar = carMapper.map(carDTO, owner);
-            updatedCar.setId(id);
-            CarModel savedCar = carRepository.save(updatedCar);
-            return carMapper.map(savedCar);
+        if (carRequestDTO.getName() != null) carModel.setName(carRequestDTO.getName());
+        if (carRequestDTO.getBrand() != null) carModel.setBrand(carRequestDTO.getBrand());
+        if (carRequestDTO.getModel() != null) carModel.setModel(carRequestDTO.getModel());
+        if (carRequestDTO.getCarYear() != null) carModel.setCarYear(carRequestDTO.getCarYear());
+        if (carRequestDTO.getColor() != null) carModel.setColor(carRequestDTO.getColor());
+        if (carRequestDTO.getClientId() != null){
+            ClientModel client = clientRepository.findById(carRequestDTO.getClientId())
+                    .orElseThrow(() -> new ResourceNotFoundException("Cliente com o ID " + carRequestDTO.getClientId() + " não encontrado."));
+            carModel.setOwner(client);
         }
-        return null;
+        CarModel updated = carRepository.save(carModel);
+        return carMapper.map(updated);
     }
     //DELETE
     public void deleteById(Long id){
         if (!carRepository.existsById(id)){
-            throw new RuntimeException("Carro não encontrado");
+            throw new ResourceNotFoundException("Carro não encontrado");
         }
         carRepository.deleteById(id);
     }
