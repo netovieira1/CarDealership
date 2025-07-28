@@ -26,6 +26,8 @@ public class CarModel {
 
     private String color;
 
+    private String plate;
+
     @ManyToOne
     @JoinColumn(name = "client_id")
     private ClientModel owner;

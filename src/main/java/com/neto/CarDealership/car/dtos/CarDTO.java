@@ -18,7 +18,10 @@ public class CarDTO {
 
     private String color;
 
+    private String plate;
+
     private Long clientId;
+
 
     public Long getId() {
         return id;
@@ -66,6 +69,14 @@ public class CarDTO {
 
     public void setColor(String color) {
         this.color = color;
+    }
+
+    public String getPlate() {
+        return plate;
+    }
+
+    public void setPlate(String plate) {
+        this.plate = plate;
     }
 
     public Long getClientId() {

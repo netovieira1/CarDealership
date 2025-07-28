@@ -1,18 +1,29 @@
 package com.neto.CarDealership.car.dtos;
 
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 
 public class CarRequestDTO {
 
+    @NotBlank(message = "O nome do carro é obrigatório")
     private String name;
 
+    @NotBlank(message = "O nome da marca é obrigatório")
     private String brand;
 
+    @NotBlank(message = "O nome da modelo é obrigatório")
     private String model;
 
+    @NotNull(message = "O ano do carro é obrigatório")
     private Integer carYear;
 
+    @NotBlank(message = "A cor do carro é obrigatória")
     private String color;
+
+    @Size(min = 7, max = 7, message = "A placa deve conter 7 dígitos")
+    @NotBlank(message = "A placa do carro é obrigatória")
+    private String plate;
 
     @NotNull(message = "O clientId não pode ser nulo")
     private Long clientId;
@@ -55,6 +66,14 @@ public class CarRequestDTO {
 
     public void setColor(String color) {
         this.color = color;
+    }
+
+    public String getPlate() {
+        return plate;
+    }
+
+    public void setPlate(String plate) {
+        this.plate = plate;
     }
 
     public Long getClientId() {

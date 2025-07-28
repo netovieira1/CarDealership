@@ -18,6 +18,7 @@ public class CarMapper {
         carDTO.setModel(carModel.getModel());
         carDTO.setCarYear(carModel.getCarYear());
         carDTO.setColor(carModel.getColor());
+        carDTO.setPlate(carModel.getPlate());
         if (carModel.getOwner() != null){
             carDTO.setClientId(carModel.getOwner().getId());
         }
@@ -33,6 +34,7 @@ public class CarMapper {
         carModel.setModel(carDTO.getModel());
         carModel.setCarYear(carDTO.getCarYear());
         carModel.setColor(carDTO.getColor());
+        carModel.setPlate(carDTO.getPlate());
         carModel.setOwner(owner);
         return carModel;
     }
@@ -45,6 +47,7 @@ public class CarMapper {
         carModel.setModel(carRequestDTO.getModel());
         carModel.setCarYear(carRequestDTO.getCarYear());
         carModel.setColor(carRequestDTO.getColor());
+        carModel.setPlate(carRequestDTO.getPlate());
         carModel.setOwner(owner);
         return carModel;
     }

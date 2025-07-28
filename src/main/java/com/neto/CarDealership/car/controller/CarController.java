@@ -4,6 +4,7 @@ import com.neto.CarDealership.car.dtos.CarDTO;
 import com.neto.CarDealership.car.dtos.CarRequestDTO;
 import com.neto.CarDealership.car.model.CarModel;
 import com.neto.CarDealership.car.service.CarService;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,7 +24,7 @@ public class CarController {
 
     //CREATE
     @PostMapping("/create")
-    public ResponseEntity<CarDTO> create(@RequestBody CarRequestDTO carRequestDTO){
+    public ResponseEntity<CarDTO> create(@RequestBody @Valid CarRequestDTO carRequestDTO){
         CarDTO newCar = carService.create(carRequestDTO);
         return ResponseEntity.status(HttpStatus.CREATED).body(newCar);
     }
@@ -48,7 +49,7 @@ public class CarController {
 
     //UPDATE
     @PutMapping("/update/{id}")
-    public ResponseEntity<?> updateById(@PathVariable Long id, @RequestBody CarRequestDTO updatedCar){
+    public ResponseEntity<?> updateById(@PathVariable Long id, @RequestBody @Valid CarRequestDTO updatedCar){
         CarDTO car = carService.updateById(id, updatedCar);
         if (car != null){
             return ResponseEntity.ok(car);
