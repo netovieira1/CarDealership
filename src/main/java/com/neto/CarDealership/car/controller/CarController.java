@@ -2,10 +2,10 @@ package com.neto.CarDealership.car.controller;
 
 import com.neto.CarDealership.car.dtos.CarDTO;
 import com.neto.CarDealership.car.dtos.CarRequestDTO;
-import com.neto.CarDealership.car.model.CarModel;
 import com.neto.CarDealership.car.service.CarService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -14,6 +14,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/cars")
+@Tag(name = "Cars", description = "Operações relacionadas aos carros")
 public class CarController {
 
     private final CarService carService;
@@ -24,6 +25,7 @@ public class CarController {
 
     //CREATE
     @PostMapping("/create")
+    @Operation(summary = "Cadastrar carros")
     public ResponseEntity<CarDTO> create(@RequestBody @Valid CarRequestDTO carRequestDTO){
         CarDTO newCar = carService.create(carRequestDTO);
         return ResponseEntity.status(HttpStatus.CREATED).body(newCar);
@@ -31,6 +33,7 @@ public class CarController {
 
     //GET ALL
     @GetMapping("/list")
+    @Operation(summary = "Listar todos os carros")
     public ResponseEntity<List<CarDTO>> getAll(){
         List<CarDTO> cars = carService.findAll();
         return ResponseEntity.ok(cars);
@@ -38,6 +41,7 @@ public class CarController {
 
     //GET BY ID
     @GetMapping("/list/{id}")
+    @Operation(summary = "Listar carro por id")
     public ResponseEntity<?> getById(@PathVariable Long id){
         CarDTO car = carService.findById(id);
         if(car != null){
@@ -49,6 +53,7 @@ public class CarController {
 
     //UPDATE
     @PutMapping("/update/{id}")
+    @Operation(summary = "Fazer alterações nos carros")
     public ResponseEntity<?> updateById(@PathVariable Long id, @RequestBody @Valid CarRequestDTO updatedCar){
         CarDTO car = carService.updateById(id, updatedCar);
         if (car != null){
@@ -60,6 +65,7 @@ public class CarController {
 
     //DELETE
     @DeleteMapping("/delete/{id}")
+    @Operation(summary = "Deletar carros")
     public ResponseEntity<String> deleteById(@PathVariable Long id){
         if (carService.findById(id) != null){
             carService.deleteById(id);

@@ -1,17 +1,30 @@
 package com.neto.CarDealership.client.dtos;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import io.swagger.v3.oas.annotations.media.Schema;
 
 import java.util.List;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
+@Schema(description = "Informações detalhadas de um cliente")
 public class ClientDTO {
 
+    @Schema(description = "ID do cliente", example = "15")
     private Long id;
+
+    @Schema(description = "Nome do cliente", example = "Joao Silva")
     private String name;
+
+    @Schema(description = "Email do cliente", example = "joao@email.com")
     private String email;
+
+    @Schema(description = "CPF do cliente", example = "12345678909")
     private String cpf;
+
+    @Schema(description = "Telefone do cliente", example = "981789090")
     private String phone;
+
+    @Schema(description = "Ids dos carros alugados pelo cliente", example = "[4, 6]")
     private List<Long> rentalCars;
 
     public Long getId() {

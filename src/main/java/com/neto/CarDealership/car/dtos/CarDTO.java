@@ -1,25 +1,34 @@
 package com.neto.CarDealership.car.dtos;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 
 public class CarDTO {
 
+    @Schema(description = "ID do carro", example = "1")
     private Long id;
 
+    @Schema(description = "Nome do carro", example = "Palio")
     private String name;
 
+    @Schema(description = "Marca do carro", example = "Fiat")
     private String brand;
 
+    @Schema(description = "Modelo do carro", example = "Sedan")
     private String model;
 
+    @Schema(description = "Ano do carro", example = "2022")
     private Integer carYear;
 
+    @Schema(description = "Cor do carro", example = "Preta")
     private String color;
 
+    @Schema(description = "Placa do carro", example = "POJ1405")
     private String plate;
 
+    @Schema(description = "Cliente do ID que alugou o carro", example = "4")
     private Long clientId;
 
 
