@@ -6,6 +6,8 @@ import com.neto.CarDealership.client.service.ClientService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -32,8 +34,12 @@ public class ClientController {
 
     @GetMapping("/list")
     @Operation(summary = "Listar todos os clientes")
-    public ResponseEntity<List<ClientDTO>> getAll(){
-        List<ClientDTO> clients = clientService.findAll();
+    public ResponseEntity<Page<ClientDTO>> getAll(
+            @RequestParam(required = false) String name,
+            @RequestParam(required = false) String email,
+            Pageable pageable
+    ){
+        Page<ClientDTO> clients = clientService.findAll(name, email, pageable);
         return ResponseEntity.ok(clients);
     }
 

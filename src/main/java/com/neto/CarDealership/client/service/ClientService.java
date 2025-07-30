@@ -7,6 +7,8 @@ import com.neto.CarDealership.client.model.ClientModel;
 import com.neto.CarDealership.client.repository.ClientRepository;
 import com.neto.CarDealership.exceptions.ResourceNotFoundException;
 import jakarta.validation.Valid;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -36,11 +38,9 @@ public class ClientService {
     }
 
     //GET ALL
-    public List<ClientDTO> findAll(){
-        List<ClientModel> clients = clientRepository.findAll();
-        return clients.stream()
-                .map(clientMapper::map)
-                .collect(Collectors.toList());
+    public Page<ClientDTO> findAll(String name, String email, Pageable pageable){
+        Page<ClientModel> clients = clientRepository.findAll(pageable);
+        return clients.map(clientMapper::map);
     }
 
     //GET BY ID
