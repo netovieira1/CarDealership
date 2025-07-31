@@ -8,6 +8,8 @@ import com.neto.CarDealership.car.repository.CarRepository;
 import com.neto.CarDealership.client.model.ClientModel;
 import com.neto.CarDealership.client.repository.ClientRepository;
 import com.neto.CarDealership.exceptions.ResourceNotFoundException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -38,11 +40,9 @@ public class CarService {
     }
 
     //GET ALL
-    public List<CarDTO> findAll(){
-        List<CarModel> cars = carRepository.findAll();
-        return cars.stream()
-                .map(carMapper::map)
-                .collect(Collectors.toList());
+    public Page<CarDTO> findAll(String name, String plate, Pageable pageable){
+        Page<CarModel> cars = carRepository.findByNamePlate(name, plate, pageable);
+        return cars.map(carMapper::map);
     }
 
     //GET BY ID

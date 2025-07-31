@@ -6,6 +6,8 @@ import com.neto.CarDealership.car.service.CarService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -34,8 +36,11 @@ public class CarController {
     //GET ALL
     @GetMapping("/list")
     @Operation(summary = "Listar todos os carros")
-    public ResponseEntity<List<CarDTO>> getAll(){
-        List<CarDTO> cars = carService.findAll();
+    public ResponseEntity<Page<CarDTO>> getAll(
+            @RequestParam(required = false) String name,
+            @RequestParam(required = false) String plate,
+            Pageable pageable){
+        Page<CarDTO> cars = carService.findAll(name, plate, pageable);
         return ResponseEntity.ok(cars);
     }
 
