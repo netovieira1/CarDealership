@@ -39,7 +39,7 @@ public class ClientService {
 
     //GET ALL
     public Page<ClientDTO> findAll(String name, String email, Pageable pageable){
-        Page<ClientModel> clients = clientRepository.findAll(pageable);
+        Page<ClientModel> clients = clientRepository.findByNameEmail(name, email, pageable);
         return clients.map(clientMapper::map);
     }
 
