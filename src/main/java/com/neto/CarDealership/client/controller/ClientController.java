@@ -6,6 +6,7 @@ import com.neto.CarDealership.client.service.ClientService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
+import org.springdoc.core.annotations.ParameterObject;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
@@ -33,11 +34,11 @@ public class ClientController {
     }
 
     @GetMapping("/list")
-    @Operation(summary = "Listar todos os clientes")
+    @Operation(summary = "Listar todos os clientes com filtro e paginação")
     public ResponseEntity<Page<ClientDTO>> getAll(
             @RequestParam(required = false) String name,
             @RequestParam(required = false) String email,
-            Pageable pageable
+            @ParameterObject Pageable pageable
     ){
         Page<ClientDTO> clients = clientService.findAll(name, email, pageable);
         return ResponseEntity.ok(clients);
