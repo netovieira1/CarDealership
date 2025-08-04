@@ -29,4 +29,8 @@ public class MyUserDetailsService implements UserDetailsService {
                 List.of(authority)
         );
     }
+
+    public void  saveUser(UserModel user) {
+        userRepository.save(user);
+    }
 }

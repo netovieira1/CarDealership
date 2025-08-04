@@ -1,4 +1,4 @@
-package com.neto.CarDealership.auth;
+package com.neto.CarDealership.user.auth;
 
 import com.neto.CarDealership.service.JwtService;
 import jakarta.servlet.FilterChain;

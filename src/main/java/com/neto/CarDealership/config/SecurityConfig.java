@@ -1,7 +1,6 @@
 package com.neto.CarDealership.config;
 
-import com.neto.CarDealership.auth.JwtAuthentication;
-import com.neto.CarDealership.service.JwtService;
+import com.neto.CarDealership.user.auth.JwtAuthentication;
 import com.neto.CarDealership.service.MyUserDetailsService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -24,7 +23,7 @@ public class SecurityConfig {
 
     private final JwtAuthentication jwtAuthentication;
 
-    public SecurityConfig(JwtAuthentication jwtAuthentication, MyUserDetailsService myUserDetailsService) {
+    public SecurityConfig(JwtAuthentication jwtAuthentication) {
         this.jwtAuthentication = jwtAuthentication;
     }
 
