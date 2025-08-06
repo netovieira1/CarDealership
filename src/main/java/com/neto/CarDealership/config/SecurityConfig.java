@@ -1,7 +1,7 @@
 package com.neto.CarDealership.config;
 
 import com.neto.CarDealership.user.auth.JwtAuthentication;
-import com.neto.CarDealership.service.MyUserDetailsService;
+import com.neto.CarDealership.user.service.MyUserDetailsService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;

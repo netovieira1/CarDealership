@@ -1,24 +1,25 @@
-package com.neto.CarDealership.service;
+package com.neto.CarDealership.user.service;
 
-import com.neto.CarDealership.user.Role;
-import com.neto.CarDealership.user.UserModel;
+import com.neto.CarDealership.user.dto.UserDTO;
+import com.neto.CarDealership.user.enums.Role;
+import com.neto.CarDealership.user.model.UserModel;
 import com.neto.CarDealership.user.dto.AuthRequest;
 import com.neto.CarDealership.user.dto.AuthResponse;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
-
-import java.util.Set;
 
 public class AuthService {
 
     private final MyUserDetailsService userDetailsService;
     private final PasswordEncoder passwordEncoder;
     private final JwtService jwtService;
+    private final UserService userService;
 
-    public AuthService(MyUserDetailsService userDetailsService, PasswordEncoder passwordEncoder, JwtService jwtService) {
+    public AuthService(MyUserDetailsService userDetailsService, PasswordEncoder passwordEncoder, JwtService jwtService, UserService userService) {
         this.userDetailsService = userDetailsService;
         this.passwordEncoder = passwordEncoder;
         this.jwtService = jwtService;
+        this.userService = userService;
     }
 
     public AuthResponse login(AuthRequest request) {
@@ -34,11 +35,10 @@ public class AuthService {
     }
 
     public void register(AuthRequest request) {
-        UserModel newUser = new UserModel();
-        newUser.setUsername(request.getUsername());
-        newUser.setPassword(passwordEncoder.encode(request.getPassword()));
-        newUser.setRole(Role.USER);
+        UserDTO userDTO = new UserDTO();
+        userDTO.setUsername(request.getUsername());
+        userDTO.setPassword(request.getPassword());
 
-        userDetailsService.saveUser(newUser);
+        userService.createUser(userDTO);
     }
 }

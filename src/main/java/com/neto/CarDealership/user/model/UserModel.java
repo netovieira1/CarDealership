@@ -1,5 +1,6 @@
-package com.neto.CarDealership.user;
+package com.neto.CarDealership.user.model;
 
+import com.neto.CarDealership.user.enums.Role;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -19,7 +20,13 @@ public class UserModel {
 
     private String username;
 
+    private String name;
+
     private String password;
+
+    private String email;
+
+    private String cpf;
 
     private Role role;
 }

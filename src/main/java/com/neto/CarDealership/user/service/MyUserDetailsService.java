@@ -1,6 +1,7 @@
-package com.neto.CarDealership.service;
+package com.neto.CarDealership.user.service;
 
-import com.neto.CarDealership.user.UserModel;
+import com.neto.CarDealership.user.dto.UserDTO;
+import com.neto.CarDealership.user.model.UserModel;
 import com.neto.CarDealership.user.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -28,9 +29,5 @@ public class MyUserDetailsService implements UserDetailsService {
                 user.getPassword(),
                 List.of(authority)
         );
-    }
-
-    public void  saveUser(UserModel user) {
-        userRepository.save(user);
     }
 }

@@ -1,6 +1,6 @@
 package com.neto.CarDealership.user.controller;
 
-import com.neto.CarDealership.service.AuthService;
+import com.neto.CarDealership.user.service.AuthService;
 import com.neto.CarDealership.user.dto.AuthRequest;
 import com.neto.CarDealership.user.dto.AuthResponse;
 import org.springframework.http.ResponseEntity;

@@ -1,4 +1,4 @@
-package com.neto.CarDealership.service;
+package com.neto.CarDealership.user.service;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;

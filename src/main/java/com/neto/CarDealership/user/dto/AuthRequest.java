@@ -3,6 +3,7 @@ package com.neto.CarDealership.user.dto;
 public class AuthRequest {
 
     private String username;
+
     private  String password;
 
     public String getUsername() {
