@@ -9,6 +9,8 @@ import com.neto.CarDealership.user.repository.UserRepository;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class UserService {
 
@@ -39,10 +41,34 @@ public class UserService {
     }
 
     //GETALL
+    public List<UserResponseDTO> getAll(){
+        return userRepository.findAll().stream().map(userMapper::map).toList();
+    }
 
     //GETBYID
+    public UserResponseDTO findById(Long id){
+        UserModel userModel = userRepository.findById(id).orElseThrow(() -> new RuntimeException("Usuário não encontrado."));
+        return userMapper.map(userModel);
+    }
 
     //UPDTATE
+    public UserResponseDTO updateById(Long id, UserDTO userDTO){
+         UserModel userModel = userRepository.findById(id).orElseThrow(() -> new RuntimeException ("Usuário não encontrado"));
+
+         //Atualiza somente os campos que vieram do DTO
+        userMapper.updateModelFromDto(userDTO, userModel);
+        if (userDTO.getPassword() != null && !userDTO.getPassword().isBlank()){
+            userModel.setPassword(passwordEncoder.encode(userDTO.getPassword()));
+        }
+        UserModel updated = userRepository.save(userModel);
+        return userMapper.map(updated);
+    }
 
     //DELETE
+    public void deleteById(Long id){
+        if (!userRepository.existsById(id)){
+            throw new RuntimeException("Usuário não encontrado");
+        }
+        userRepository.deleteById(id);
+    }
 }

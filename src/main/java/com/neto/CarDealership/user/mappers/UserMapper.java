@@ -29,4 +29,25 @@ public class UserMapper {
         userResponseDTO.setRole(userModel.getRole());
         return userResponseDTO;
     }
+
+    public void updateModelFromDto(UserDTO userDTO, UserModel userModel){
+        if (userDTO.getUsername() != null){
+            userModel.setUsername(userDTO.getUsername());
+        }
+        if (userDTO.getName() != null){
+            userModel.setName(userDTO.getName());
+        }
+        if (userDTO.getUsername() != null && !userDTO.getPassword().isBlank()){
+            userModel.setPassword(userDTO.getPassword());
+        }
+        if (userDTO.getEmail() != null){
+            userModel.setEmail(userDTO.getEmail());
+        }
+        if (userDTO.getCpf() != null){
+            userModel.setCpf(userDTO.getCpf());
+        }
+        if (userDTO.getRole() != null){
+            userModel.setRole(userDTO.getRole());
+        }
+    }
 }
