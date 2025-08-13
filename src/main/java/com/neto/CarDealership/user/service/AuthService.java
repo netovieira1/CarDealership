@@ -7,7 +7,9 @@ import com.neto.CarDealership.user.dto.AuthRequest;
 import com.neto.CarDealership.user.dto.AuthResponse;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Service;
 
+@Service
 public class AuthService {
 
     private final MyUserDetailsService userDetailsService;

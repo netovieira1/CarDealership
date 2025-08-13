@@ -4,6 +4,7 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
@@ -15,7 +16,17 @@ import java.util.function.Function;
 @Service
 public class JwtService {
 
-    private final String SECRET_KEY = "sua-chave-secreta-super-segura";
+    @Value("${app.jwt.secret}")
+    private String secretKey;
+
+    @Value("${app.jwt.expiration}")
+    private Long expirationMs;
+
+    private final SecretKey  signingKey =  Keys.secretKeyFor(SignatureAlgorithm.HS256);
+
+    private SecretKey getSigningKey(){
+        return signingKey;
+    }
 
     public String extractUsername(String token) {
         return extractClaim(token, Claims::getSubject);
@@ -28,13 +39,11 @@ public class JwtService {
 
     private Claims extractAllClaims(String token) {
 
-        SecretKey key = Keys.hmacShaKeyFor(SECRET_KEY.getBytes(StandardCharsets.UTF_8));
-
-        return Jwts.parser()
-                .verifyWith(key)
+        return Jwts.parserBuilder()
+                .setSigningKey(getSigningKey())     // define a chave HMAC
                 .build()
-                .parseSignedClaims(token)
-                .getPayload();
+                .parseClaimsJws(token)  // parse & valida assinatura
+                .getBody();
     }
 
     public String generateToken(UserDetails userDetails) {
@@ -42,8 +51,8 @@ public class JwtService {
                 .setSubject(userDetails.getUsername())
                 .claim("authorities", userDetails.getAuthorities())
                 .setIssuedAt(new Date(System.currentTimeMillis()))
-                .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60 * 10)) // 10h
-                .signWith(Keys.hmacShaKeyFor(SECRET_KEY.getBytes(StandardCharsets.UTF_8)), SignatureAlgorithm.HS256)
+                .setExpiration(new Date(System.currentTimeMillis() + expirationMs)) // 10h
+                .signWith(getSigningKey(), SignatureAlgorithm.HS256)
                 .compact();
     }
 

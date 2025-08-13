@@ -1,7 +1,9 @@
 package com.neto.CarDealership.config;
 
 import com.neto.CarDealership.user.auth.JwtAuthentication;
+import com.neto.CarDealership.user.service.JwtService;
 import com.neto.CarDealership.user.service.MyUserDetailsService;
+import jakarta.servlet.Filter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -12,6 +14,7 @@ import org.springframework.security.authentication.dao.DaoAuthenticationProvider
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
@@ -21,21 +24,21 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @EnableWebSecurity
 public class SecurityConfig {
 
-    private final JwtAuthentication jwtAuthentication;
-
-    public SecurityConfig(JwtAuthentication jwtAuthentication) {
-        this.jwtAuthentication = jwtAuthentication;
+    @Bean
+    public JwtAuthentication jwtAuthentication(JwtService jwtService, MyUserDetailsService userDetailsService){
+        return new JwtAuthentication(jwtService, userDetailsService);
     }
 
     @Bean
-    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+    public SecurityFilterChain filterChain(HttpSecurity http, JwtAuthentication jwtAuthentication) throws Exception {
         http.csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/auth/**").permitAll()
-                        .requestMatchers(HttpMethod.POST, "/clients/**").hasRole("ADMIN")
-                        .requestMatchers(HttpMethod.PUT, "/clients/**").hasRole("ADMIN")
-                        .requestMatchers(HttpMethod.DELETE, "/clients/**").hasRole("ADMIN")
-                        .requestMatchers(HttpMethod.GET, "/clients/**").hasAnyRole("ADMIN", "USER")
+                                .requestMatchers(HttpMethod.POST, "/auth/register", "/auth/login", "/error").permitAll()
+                                .requestMatchers(HttpMethod.GET, "/user/**").permitAll()
+                                .requestMatchers(HttpMethod.POST, "/clients/**").permitAll()
+                                .requestMatchers(HttpMethod.PUT, "/clients/**").permitAll()
+                                .requestMatchers(HttpMethod.DELETE, "/clients/**").permitAll()
+                                .requestMatchers(HttpMethod.GET, "/clients/**").permitAll()
                         .anyRequest().authenticated()
                 )
                 .sessionManagement((sess -> sess
@@ -65,9 +68,9 @@ public class SecurityConfig {
     }
 
     @Bean
-    public AuthenticationManager authenticationManager() {
+    public AuthenticationManager authenticationManager(UserDetailsService userDetailsService, PasswordEncoder encoder) {
         DaoAuthenticationProvider provider = new DaoAuthenticationProvider(userDetailsService());
-        provider.setPasswordEncoder(passwordEncoder()); // esse ainda é válido
+        provider.setPasswordEncoder(passwordEncoder());
         return new ProviderManager(provider);
     }
 }

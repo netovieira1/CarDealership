@@ -3,7 +3,9 @@ package com.neto.CarDealership.user.mappers;
 import com.neto.CarDealership.user.dto.UserDTO;
 import com.neto.CarDealership.user.dto.UserResponseDTO;
 import com.neto.CarDealership.user.model.UserModel;
+import org.springframework.stereotype.Component;
 
+@Component
 public class UserMapper {
 
     public UserModel map(UserDTO userDTO){

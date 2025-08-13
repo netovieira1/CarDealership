@@ -11,3 +11,4 @@ public class CarDealershipApplication {
 	}
 
 }
+//TODO PERMISSOES DO SECURITY CONFIG
