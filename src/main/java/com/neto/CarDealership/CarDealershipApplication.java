@@ -11,4 +11,5 @@ public class CarDealershipApplication {
 	}
 
 }
-//TODO PERMISSOES DO SECURITY CONFIG
+
+//TODO Adicionar Autorizaçoes para admins

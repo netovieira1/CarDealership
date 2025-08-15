@@ -28,7 +28,6 @@ public class CarRequestDTO {
     @Schema(description = "Cor do carro", example = "Preta")
     private String color;
 
-    @Size(min = 7, max = 7, message = "A placa deve conter 7 dígitos")
     @NotBlank(message = "A placa do carro é obrigatória")
     @Schema(description = "Placa do carro", example = "POJ1405")
     private String plate;

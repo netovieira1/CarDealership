@@ -33,13 +33,13 @@ public class UserMapper {
     }
 
     public void updateModelFromDto(UserDTO userDTO, UserModel userModel){
-        if (userDTO.getUsername() != null){
+        if (userDTO.getUsername() != null && !userDTO.getUsername().isBlank()){
             userModel.setUsername(userDTO.getUsername());
         }
         if (userDTO.getName() != null){
             userModel.setName(userDTO.getName());
         }
-        if (userDTO.getUsername() != null && !userDTO.getPassword().isBlank()){
+        if (userDTO.getPassword() != null && !userDTO.getPassword().isBlank()){
             userModel.setPassword(userDTO.getPassword());
         }
         if (userDTO.getEmail() != null){
