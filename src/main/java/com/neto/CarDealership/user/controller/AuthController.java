@@ -3,7 +3,10 @@ package com.neto.CarDealership.user.controller;
 
 import com.neto.CarDealership.user.dto.AuthRequest;
 import com.neto.CarDealership.user.dto.AuthResponse;
+import com.neto.CarDealership.user.dto.RegisterRequestDTO;
 import com.neto.CarDealership.user.service.AuthService;
+import jakarta.validation.Valid;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -21,9 +24,9 @@ public class AuthController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<String> register(@RequestBody AuthRequest request) {
-        authService.register(request);
-        return ResponseEntity.ok("Usuário registrado com  sucesso!");
+    public ResponseEntity<AuthResponse> register(@Valid @RequestBody RegisterRequestDTO request) {
+        AuthResponse resp = authService.register(request);
+        return ResponseEntity.ok(resp);
     }
 
     @PostMapping("/login")

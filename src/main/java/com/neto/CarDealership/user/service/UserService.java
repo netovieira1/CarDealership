@@ -1,5 +1,6 @@
 package com.neto.CarDealership.user.service;
 
+import com.neto.CarDealership.user.dto.RegisterRequestDTO;
 import com.neto.CarDealership.user.dto.UserDTO;
 import com.neto.CarDealership.user.dto.UserResponseDTO;
 import com.neto.CarDealership.user.enums.Role;
@@ -25,14 +26,14 @@ public class UserService {
     }
 
     //CREATE
-    public UserResponseDTO createUser(UserDTO userDTO){
-        if (userRepository.existsByUsername(userDTO.getUsername())){
+    public UserResponseDTO createUser(RegisterRequestDTO requestDTO){
+        if (userRepository.existsByUsername(requestDTO.getUsername())){
             throw new RuntimeException("Username já está em uso");
         }
         //DTO -> MODEL
-        UserModel userModel = userMapper.map(userDTO);
+        UserModel userModel = userMapper.map(requestDTO);
         userModel.setPassword(passwordEncoder.encode(userModel.getPassword()));
-        if (userDTO.getRole() == null){
+        if (requestDTO.getRole() == null){
             userModel.setRole(Role.USER);
         }
         // 2) salva e obtém os dados gerados (ID, timestamps)

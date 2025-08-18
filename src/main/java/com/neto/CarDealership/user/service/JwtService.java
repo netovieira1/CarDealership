@@ -13,6 +13,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.Date;
 import java.util.function.Function;
 
+
 @Service
 public class JwtService {
 
@@ -22,9 +23,9 @@ public class JwtService {
     @Value("${app.jwt.expiration}")
     private Long expirationMs;
 
-    private final SecretKey  signingKey =  Keys.secretKeyFor(SignatureAlgorithm.HS256);
+    private final SecretKey signingKey = Keys.secretKeyFor(SignatureAlgorithm.HS256);
 
-    private SecretKey getSigningKey(){
+    private SecretKey getSigningKey() {
         return signingKey;
     }
 
@@ -38,31 +39,44 @@ public class JwtService {
     }
 
     private Claims extractAllClaims(String token) {
-
         return Jwts.parserBuilder()
-                .setSigningKey(getSigningKey())     // define a chave HMAC
+                .setSigningKey(getSigningKey())
                 .build()
-                .parseClaimsJws(token)  // parse & valida assinatura
+                .parseClaimsJws(token)
                 .getBody();
     }
 
+    // Método original que recebe UserDetails
     public String generateToken(UserDetails userDetails) {
-        return Jwts.builder()
-                .setSubject(userDetails.getUsername())
-                .claim("authorities", userDetails.getAuthorities())
+        return buildToken(userDetails.getUsername(), userDetails.getAuthorities().toString());
+    }
+
+    // NOVO método que recebe só o username
+    public String generateToken(String username) {
+        return buildToken(username, null);
+    }
+
+    // helper interno para não duplicar código
+    private String buildToken(String subject, String authorities) {
+        var builder = Jwts.builder()
+                .setSubject(subject)
                 .setIssuedAt(new Date(System.currentTimeMillis()))
-                .setExpiration(new Date(System.currentTimeMillis() + expirationMs)) // 10h
-                .signWith(getSigningKey(), SignatureAlgorithm.HS256)
-                .compact();
+                .setExpiration(new Date(System.currentTimeMillis() + expirationMs))
+                .signWith(getSigningKey(), SignatureAlgorithm.HS256);
+
+        if (authorities != null) {
+            builder.claim("authorities", authorities);
+        }
+
+        return builder.compact();
     }
 
     public boolean isTokenValid(String token, UserDetails userDetails) {
         final String username = extractUsername(token);
-        return (username.equals(userDetails.getUsername())) && !isTokenExpired(token);
+        return username.equals(userDetails.getUsername()) && !isTokenExpired(token);
     }
 
     private boolean isTokenExpired(String token) {
         return extractClaim(token, Claims::getExpiration).before(new Date());
     }
-
 }

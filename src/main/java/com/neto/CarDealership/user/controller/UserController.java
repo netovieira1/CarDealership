@@ -1,5 +1,6 @@
 package com.neto.CarDealership.user.controller;
 
+import com.neto.CarDealership.user.dto.RegisterRequestDTO;
 import com.neto.CarDealership.user.dto.UserDTO;
 import com.neto.CarDealership.user.dto.UserResponseDTO;
 import com.neto.CarDealership.user.mappers.UserMapper;
@@ -24,8 +25,8 @@ public class UserController {
     }
 
     @PostMapping("/create")
-    public ResponseEntity<UserResponseDTO> create(@RequestBody @Valid UserDTO userDTO){
-        UserResponseDTO userResponseDTO = userService.createUser(userDTO);
+    public ResponseEntity<UserResponseDTO> create(@Valid @RequestBody RegisterRequestDTO requestDTO){
+        UserResponseDTO userResponseDTO = userService.createUser(requestDTO);
         return ResponseEntity.status(HttpStatus.CREATED).body(userResponseDTO);
     }
 
