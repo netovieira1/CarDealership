@@ -3,6 +3,7 @@ package com.neto.CarDealership.user.service;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -10,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import javax.crypto.SecretKey;
 import java.nio.charset.StandardCharsets;
+import java.util.Base64;
 import java.util.Date;
 import java.util.function.Function;
 
@@ -23,10 +25,9 @@ public class JwtService {
     @Value("${app.jwt.expiration}")
     private Long expirationMs;
 
-    private final SecretKey signingKey = Keys.secretKeyFor(SignatureAlgorithm.HS256);
-
     private SecretKey getSigningKey() {
-        return signingKey;
+        byte[] keybytes = Decoders.BASE64.decode(secretKey);
+        return Keys.hmacShaKeyFor(keybytes);
     }
 
     public String extractUsername(String token) {
