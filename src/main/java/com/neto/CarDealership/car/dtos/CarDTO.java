@@ -5,6 +5,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 
+@Schema(description = "Informações detalhadas dos carros")
 public class CarDTO {
 
     @Schema(description = "ID do carro", example = "1")

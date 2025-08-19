@@ -5,6 +5,8 @@ import com.neto.CarDealership.user.dto.AuthRequest;
 import com.neto.CarDealership.user.dto.AuthResponse;
 import com.neto.CarDealership.user.dto.RegisterRequestDTO;
 import com.neto.CarDealership.user.service.AuthService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
@@ -15,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/auth")
+@Tag(name = "Auth", description = "Operações relacionadas a Autorização dos Users")
 public class AuthController {
 
     private final AuthService authService;
@@ -24,12 +27,15 @@ public class AuthController {
     }
 
     @PostMapping("/register")
+    @Operation(summary = "Registrar os usuários")
     public ResponseEntity<AuthResponse> register(@Valid @RequestBody RegisterRequestDTO request) {
         AuthResponse resp = authService.register(request);
         return ResponseEntity.ok(resp);
     }
 
     @PostMapping("/login")
+    @Operation(summary = "Fazer o login dos usuários")
+
     public ResponseEntity<AuthResponse> login(@RequestBody AuthRequest request) {
         AuthResponse response = authService.login(request);
         return ResponseEntity.ok(response);

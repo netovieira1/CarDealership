@@ -1,19 +1,27 @@
 package com.neto.CarDealership.user.dto;
 
 import com.neto.CarDealership.user.enums.Role;
+import io.swagger.v3.oas.annotations.media.Schema;
 
+@Schema(description = "Informações detalhadas de um usuário")
 public class RegisterRequestDTO {
 
+    @Schema(description = "Usernme do usuário", example = "joaosilva")
     private String username;
 
+    @Schema(description = "Senha do usuário", example = "123456")
     private String password;
 
+    @Schema(description = "Nome do usuário", example = "João Silva")
     private String name;
 
+    @Schema(description = "email do usuário", example = "joao@email.com")
     private String email;
 
+    @Schema(description = "CPF do usuário", example = "12345678900")
     private String cpf;
 
+    @Schema(description = "Role de permissão do usuário", example = "ADMIN ou USER")
     private Role role;
 
     public String getUsername() {
