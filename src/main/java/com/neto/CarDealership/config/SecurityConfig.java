@@ -38,6 +38,8 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.POST, "/user/**", "/client/**", "/cars/**").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.PUT, "/user/**", "/client/**", "/cars/**").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.DELETE, "/user/**", "/client/**", "/cars/**").hasRole("ADMIN")
+                        .requestMatchers("/swagger-ui/**", "/v3/api-docs/**").permitAll()
+
                 )
                 .sessionManagement((sess -> sess
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS)

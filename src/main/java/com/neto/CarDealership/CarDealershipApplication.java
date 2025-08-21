@@ -12,4 +12,3 @@ public class CarDealershipApplication {
 
 }
 
-//TODO Testar altorizaçoes de ROLES
